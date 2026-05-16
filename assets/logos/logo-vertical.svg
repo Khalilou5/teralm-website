@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500" version="1.1">
+  <defs>
+    <style type="text/css">
+      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&amp;display=swap');
+      .serif-t-strict {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 215px;
+        fill: #B5722A;
+        text-anchor: middle;
+      }
+      .serif-text-strict {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 38px;
+        fill: #1C1810;
+        text-anchor: middle;
+        letter-spacing: 0.22em;
+      }
+      .divider-strict {
+        stroke: #B5722A;
+        stroke-width: 1px;
+      }
+    </style>
+  </defs>
+
+  <text x="200" y="286" class="serif-t-strict">T</text>
+
+  <line x1="123" y1="320" x2="277" y2="320" class="divider-strict" />
+
+  <text x="204" y="382" class="serif-text-strict">TERALM</text>
+</svg>

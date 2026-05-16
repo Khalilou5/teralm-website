@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" version="1.1">
+  <!--
+    Logo pour "Teralm" - Version Sombre
+    Fond: Encre chaude (#1C1810)
+    Bords arrondis: rx="40"
+    "T" majuscule: Playfair Display Weight 400, Ocre (#B5722A)
+    Taille T: ~74% (380px)
+    Centrage optique appliqué.
+  -->
+
+  <!-- Définitions et import de la police (Playfair Display 400) -->
+  <defs>
+    <style type="text/css">
+      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- Fond carré avec bords arrondis (rx=40) -->
+  <rect width="512" height="512" rx="40" ry="40" fill="#1C1810"/>
+
+  <!--
+    Génération du "T" majuscule.
+    fontSize="380" (~74% de 512px).
+    text-anchor="middle" pour centrage horizontal.
+    dominant-baseline="central" pour centrage vertical initial.
+    x="256" (centre exact).
+    y="245" (ajustement optique: remonté légèrement de 11px par rapport au centre absolu de 256px
+    pour compenser visuellement la masse de la barre supérieure du T).
+  -->
+  <text
+    x="256"
+    y="245"
+    font-family="'Playfair Display', serif"
+    font-size="380"
+    fill="#B5722A"
+    text-anchor="middle"
+    dominant-baseline="central"
+  >T</text>
+</svg>
