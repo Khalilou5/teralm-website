@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teralm — The African Language Model</title>
+<meta name="description" content="Teralm est le Language Model africain. Né en Afrique en 2026, fait avec l'âme, pour servir l'humanité.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream: #FAF7F2;
+  --cream-2: #F2EBE0;
+  --cream-3: #E8DDD0;
+  --ocre: #B5722A;
+  --ocre-light: #D4935A;
+  --ocre-pale: #EDD9BF;
+  --gold-line: #C9963F;
+  --ink: #1C1810;
+  --ink-2: #3A2E22;
+  --muted: #6B5E4E;
+  --muted-light: #9A8C7E;
+  --border: rgba(181,114,42,0.18);
+  --border-light: rgba(181,114,42,0.1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.5rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.4s, border-color 0.4s;
+  border-bottom: 0.5px solid transparent;
+}
+nav.scrolled {
+  background: rgba(250,247,242,0.94);
+  backdrop-filter: blur(10px);
+  border-color: var(--border);
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  font-size: 1.35rem;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+}
+.nav-logo span { color: var(--ocre); }
+
+.nav-cta {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ocre);
+  text-decoration: none;
+  border: 0.5px solid var(--ocre);
+  padding: 0.55rem 1.5rem;
+  transition: all 0.25s;
+}
+.nav-cta:hover {
+  background: var(--ocre);
+  color: var(--cream);
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 9rem 2rem 6rem;
+  position: relative;
+}
+
+.hero-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--ocre);
+  margin-bottom: 2.2rem;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.3s forwards;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(5rem, 16vw, 11rem);
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 0.2em;
+  min-height: 1.1em;
+}
+
+.hero-title .letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(24px);
+  animation: letterIn 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
+.hero-tagline {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1rem, 2.5vw, 1.45rem);
+  color: var(--ocre-light);
+  margin-bottom: 2.8rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.4s forwards;
+}
+
+.hero-desc {
+  max-width: 500px;
+  font-size: 0.97rem;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.85;
+  margin: 0 auto 3.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.6s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.8s forwards;
+}
+
+.btn-primary {
+  display: inline-block;
+  background: var(--ocre);
+  color: var(--cream);
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.95rem 2.6rem;
+  transition: all 0.25s;
+}
+.btn-primary:hover {
+  background: var(--ink);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-block;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.95rem 2.6rem;
+  border: 0.5px solid var(--cream-3);
+  transition: all 0.25s;
+}
+.btn-secondary:hover {
+  border-color: var(--ocre);
+  color: var(--ocre);
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  opacity: 0;
+  animation: fadeIn 1s ease 2.5s forwards;
+}
+.scroll-indicator span {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+}
+.scroll-line {
+  width: 0.5px;
+  height: 2.8rem;
+  background: linear-gradient(to bottom, var(--ocre), transparent);
+  animation: scrollPulse 2.2s ease-in-out infinite;
+}
+
+/* DIVIDER */
+.divider {
+  width: 100%;
+  height: 0.5px;
+  background: var(--border);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* SECTIONS */
+.section {
+  padding: 8rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.section-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ocre);
+  margin-bottom: 3.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.section-label::after {
+  content: '';
+  height: 0.5px;
+  background: var(--border);
+  width: 60px;
+}
+
+/* LES 3 SENS */
+.three-words {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 0.5px solid var(--border);
+}
+
+.word-card {
+  padding: 3rem 2.5rem;
+  border-right: 0.5px solid var(--border);
+  transition: background 0.35s;
+  position: relative;
+  overflow: hidden;
+}
+.word-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--ocre);
+  transform: scaleX(0);
+  transition: transform 0.35s;
+  transform-origin: left;
+}
+.word-card:hover { background: rgba(181,114,42,0.04); }
+.word-card:hover::after { transform: scaleX(1); }
+.word-card:last-child { border-right: none; }
+
+.word-glyph {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  font-weight: 400;
+  color: var(--ocre-pale);
+  line-height: 1;
+  margin-bottom: 1.2rem;
+  transition: color 0.3s;
+}
+.word-card:hover .word-glyph { color: var(--ocre-light); }
+
+.word-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.45rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+
+.word-origin {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ocre);
+  margin-bottom: 1.2rem;
+}
+
+.word-desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.85;
+}
+
+/* MANIFESTE */
+.manifesto {
+  padding: 9rem 2rem;
+  text-align: center;
+  background: var(--cream-2);
+  border-top: 0.5px solid var(--border);
+  border-bottom: 0.5px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+.manifesto-inner { max-width: 780px; margin: 0 auto; }
+
+.manifesto-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem;
+  font-weight: 400;
+  color: var(--ocre-pale);
+  line-height: 0.5;
+  margin-bottom: 2rem;
+  display: block;
+}
+
+.manifesto-quote {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(1.45rem, 3.5vw, 2.2rem);
+  line-height: 1.45;
+  color: var(--ink-2);
+  margin-bottom: 2.5rem;
+}
+
+.manifesto-quote em {
+  font-style: italic;
+  color: var(--ocre);
+}
+
+.manifesto-rule {
+  width: 40px;
+  height: 0.5px;
+  background: var(--ocre);
+  margin: 0 auto 1.5rem;
+}
+
+.manifesto-source {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+}
+
+/* VALEURS */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 0.5px solid var(--border);
+  margin-top: 3rem;
+}
+
+.value-item {
+  padding: 2.5rem 2rem;
+  border-right: 0.5px solid var(--border);
+  border-bottom: 0.5px solid var(--border);
+  transition: background 0.3s;
+}
+.value-item:nth-child(3n) { border-right: none; }
+.value-item:nth-child(n+4) { border-bottom: none; }
+.value-item:hover { background: var(--cream-2); }
+
+.value-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+  color: var(--ocre-pale);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.value-name {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 0.7rem;
+}
+
+.value-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* LANGUAGES */
+.languages {
+  padding: 6rem 2rem;
+  background: var(--cream-2);
+  border-top: 0.5px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+.lang-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.lang-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 3rem;
+}
+.lang-tag {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 0.5px solid var(--border);
+  padding: 0.5rem 1.2rem;
+  background: var(--cream);
+  transition: all 0.2s;
+}
+.lang-tag:hover {
+  border-color: var(--ocre);
+  color: var(--ocre);
+  background: var(--cream);
+}
+.lang-tag.africa {
+  color: var(--ocre);
+  border-color: var(--ocre-pale);
+  background: rgba(237,217,191,0.3);
+}
+
+/* CTA */
+.cta-section {
+  padding: 10rem 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ocre);
+  margin-bottom: 2rem;
+}
+
+.cta-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+}
+
+.cta-sub {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin-bottom: 3rem;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* FOOTER */
+footer {
+  padding: 2.5rem 3rem;
+  border-top: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: var(--cream-2);
+  position: relative;
+  z-index: 1;
+}
+
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+.footer-logo span { color: var(--ocre); }
+
+.footer-links {
+  display: flex;
+  gap: 2rem;
+}
+.footer-links a {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--ocre); }
+
+.footer-copy {
+  font-size: 0.72rem;
+  color: var(--muted-light);
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes letterIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 1; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .three-words { grid-template-columns: 1fr; }
+  .word-card { border-right: none; border-bottom: 0.5px solid var(--border); }
+  .word-card:last-child { border-bottom: none; }
+  .values-grid { grid-template-columns: 1fr 1fr; }
+  .value-item:nth-child(3n) { border-right: 0.5px solid var(--border); }
+  .value-item:nth-child(2n) { border-right: none; }
+}
+@media (max-width: 640px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .values-grid { grid-template-columns: 1fr; }
+  .value-item { border-right: none !important; }
+  footer { flex-direction: column; text-align: center; }
+  .footer-links { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="/" class="nav-logo">Teral<span>m</span></a>
+  <a href="https://chat.teralm.ai" class="nav-cta">Essayer Teralm</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Né en Afrique &middot; 2026</p>
+  <h1 class="hero-title" id="hero-title" aria-label="Teralm"></h1>
+  <p class="hero-tagline">The African Language Model</p>
+  <p class="hero-desc">
+    Fait avec l'âme, pour servir l'humanité.<br>
+    Une intelligence artificielle née du continent africain,<br>
+    ouverte au monde entier.
+  </p>
+  <div class="hero-actions">
+    <a href="https://chat.teralm.ai" class="btn-primary">Essayer maintenant</a>
+    <a href="#vision" class="btn-secondary">Notre vision</a>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Découvrir</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LES 3 SENS -->
+<section class="section" id="nom">
+  <p class="section-label">Le nom</p>
+  <div class="three-words">
+    <div class="word-card">
+      <div class="word-glyph">T</div>
+      <div class="word-name">Tera</div>
+      <div class="word-origin">De Teranga</div>
+      <p class="word-desc">La valeur africaine d'hospitalité et d'accueil chaleureux. Recevoir l'autre comme un membre de sa propre famille. C'est l'âme de notre interaction avec chaque utilisateur.</p>
+    </div>
+    <div class="word-card">
+      <div class="word-glyph">alm</div>
+      <div class="word-name">Alm</div>
+      <div class="word-origin">Alma · Latin &amp; Espagnol</div>
+      <p class="word-desc">L'âme. Ce qui distingue Teralm d'un simple outil. Nous croyons qu'une IA doit avoir une présence, une chaleur, une authenticité — pas seulement de la performance.</p>
+    </div>
+    <div class="word-card">
+      <div class="word-glyph">LM</div>
+      <div class="word-name">LM</div>
+      <div class="word-origin">Language Model · IA</div>
+      <p class="word-desc">Le cœur technique de l'IA moderne. Teralm est un grand modèle de langage — au même niveau d'ambition que GPT, Claude ou Mistral. Né en Afrique, pour le monde.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTE -->
+<section class="manifesto" id="vision">
+  <div class="manifesto-inner">
+    <span class="manifesto-mark">&ldquo;</span>
+    <blockquote class="manifesto-quote">
+      Pourquoi <em>.ai</em> comme tout le monde ?<br>
+      Nous sommes <em>le Language Model africain</em>.<br>
+      Fait avec l'âme. Pour servir l'humanité.
+    </blockquote>
+    <div class="manifesto-rule"></div>
+    <p class="manifesto-source">Manifeste Teralm &middot; Mai 2026</p>
+  </div>
+</section>
+
+<!-- VALEURS -->
+<section class="section" id="valeurs">
+  <p class="section-label">Nos valeurs</p>
+  <div class="values-grid">
+    <div class="value-item">
+      <div class="value-number">01</div>
+      <div class="value-name">Teranga</div>
+      <p class="value-desc">Chaque interaction est un accueil. Chaque utilisateur mérite d'être reçu avec chaleur et dignité.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-number">02</div>
+      <div class="value-name">Honnêteté</div>
+      <p class="value-desc">Teralm ne ment pas. Ne devine pas. Ne cache pas ses limites. L'honnêteté intellectuelle avant tout.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-number">03</div>
+      <div class="value-name">Excellence</div>
+      <p class="value-desc">La meilleure réponse possible, à chaque fois. Pas de médiocrité tolérée.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-number">04</div>
+      <div class="value-name">Souveraineté</div>
+      <p class="value-desc">L'Afrique mérite une IA à elle. Pas un reflet de l'Occident. Une voix propre, une pensée propre.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-number">05</div>
+      <div class="value-name">Ouverture</div>
+      <p class="value-desc">Né en Afrique. Ouvert au monde entier. Universel par nature, africain par essence.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-number">06</div>
+      <div class="value-name">Panafricanisme</div>
+      <p class="value-desc">Teralm appartient à toute l'Afrique et à sa diaspora mondiale. Pas à un pays. Au continent.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LANGUES -->
+<section class="languages">
+  <div class="lang-inner">
+    <p class="section-label">Langues</p>
+    <div class="lang-grid">
+      <span class="lang-tag">Français</span>
+      <span class="lang-tag">English</span>
+      <span class="lang-tag">Español</span>
+      <span class="lang-tag">Português</span>
+      <span class="lang-tag">العربية</span>
+      <span class="lang-tag">中文</span>
+      <span class="lang-tag africa">Wolof</span>
+      <span class="lang-tag africa">Swahili</span>
+      <span class="lang-tag africa">Yoruba</span>
+      <span class="lang-tag africa">Hausa</span>
+      <span class="lang-tag africa">Amharique</span>
+      <span class="lang-tag africa">Lingala</span>
+      <span class="lang-tag africa">Bambara</span>
+      <span class="lang-tag africa">Pulaar</span>
+      <span class="lang-tag africa">Zoulou</span>
+      <span class="lang-tag africa">Mandingue</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <p class="cta-label">Teralm v0.1 · Accès ouvert</p>
+  <h2 class="cta-title">Prêt à rencontrer<br>Teralm ?</h2>
+  <p class="cta-sub">Accédez à Teralm v0.1 maintenant. Tapez votre première question en français, en anglais, ou en wolof.</p>
+  <a href="https://chat.teralm.ai" class="btn-primary">Ouvrir Teralm</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="/" class="footer-logo">Teral<span>m</span></a>
+  <div class="footer-links">
+    <a href="#nom">Le nom</a>
+    <a href="#vision">Vision</a>
+    <a href="#valeurs">Valeurs</a>
+    <a href="https://chat.teralm.ai">Chat</a>
+  </div>
+  <p class="footer-copy">© 2026 Teralm AI &middot; teralm.ai</p>
+</footer>
+
+<script>
+const word = "Teralm";
+const el = document.getElementById('hero-title');
+const delays = [0.5, 0.65, 0.8, 0.95, 1.1, 1.25];
+word.split('').forEach((l, i) => {
+  const s = document.createElement('span');
+  s.className = 'letter';
+  s.textContent = l;
+  s.style.animationDelay = delays[i] + 's';
+  el.appendChild(s);
+});
+
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+</script>
+
+</body>
+</html>
