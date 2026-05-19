@@ -433,6 +433,7 @@ nav.scrolled {
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
+  justify-content: center;
   margin-top: 3rem;
 }
 .lang-tag {
@@ -455,6 +456,42 @@ nav.scrolled {
   color: var(--ocre);
   border-color: var(--ocre-pale);
   background: rgba(237,217,191,0.3);
+}
+
+/* WOLOF FEATURED — premium block */
+.lang-featured {
+  margin: 4rem auto 3rem;
+  max-width: 32rem;
+  padding: 3rem 2rem;
+  border: 1px solid var(--ocre);
+  text-align: center;
+  background: transparent;
+}
+.lang-featured-name {
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-size: 2.25rem;
+  font-weight: 400;
+  color: var(--ocre);
+  letter-spacing: 0.15em;
+  margin: 0 0 1rem;
+}
+.lang-featured-status {
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0;
+}
+.lang-group-label {
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  margin: 3rem 0 1.5rem;
 }
 
 /* CTA */
@@ -674,29 +711,7 @@ footer {
 </section>
 
 <!-- LANGUES -->
-<section class="languages">
-  <div class="lang-inner">
-    <p class="section-label">Langues</p>
-    <div class="lang-grid">
-      <span class="lang-tag">Français</span>
-      <span class="lang-tag">English</span>
-      <span class="lang-tag">Español</span>
-      <span class="lang-tag">Português</span>
-      <span class="lang-tag">العربية</span>
-      <span class="lang-tag">中文</span>
-      <span class="lang-tag africa">Wolof</span>
-      <span class="lang-tag africa">Swahili</span>
-      <span class="lang-tag africa">Yoruba</span>
-      <span class="lang-tag africa">Hausa</span>
-      <span class="lang-tag africa">Amharique</span>
-      <span class="lang-tag africa">Lingala</span>
-      <span class="lang-tag africa">Bambara</span>
-      <span class="lang-tag africa">Pulaar</span>
-      <span class="lang-tag africa">Zoulou</span>
-      <span class="lang-tag africa">Mandingue</span>
-    </div>
-  </div>
-</section>
+<section class="languages" id="languages-container"></section>
 
 <!-- CTA FINAL -->
 <section class="cta-section">
@@ -736,5 +751,80 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 </script>
 
-</body>
+<script>
+  // ═══════════════════════════════════════════════════════════════
+  //  TERALM — CONFIGURATION DES LANGUES
+  //  Pour activer une langue : passer status de "coming" à "available"
+  //  Pour ajouter une langue : ajouter une ligne dans le tableau
+  // ═══════════════════════════════════════════════════════════════
+  const TERALM_LANGUAGES = [
+    // Langue(s) actuellement disponible(s) — mises en avant
+    { name: "Wolof",     status: "available", group: "africa" },
+
+    // Langues africaines à venir
+    { name: "Swahili",   status: "coming",    group: "africa" },
+    { name: "Yoruba",    status: "coming",    group: "africa" },
+    { name: "Hausa",     status: "coming",    group: "africa" },
+    { name: "Amharique", status: "coming",    group: "africa" },
+    { name: "Lingala",   status: "coming",    group: "africa" },
+    { name: "Bambara",   status: "coming",    group: "africa" },
+    { name: "Pulaar",    status: "coming",    group: "africa" },
+    { name: "Zoulou",    status: "coming",    group: "africa" },
+    { name: "Mandingue", status: "coming",    group: "africa" },
+
+    // Langues mondiales (toutes disponibles via Llama-3.3-70B)
+    { name: "Français",  status: "available", group: "global" },
+    { name: "English",   status: "available", group: "global" },
+    { name: "Español",   status: "available", group: "global" },
+    { name: "Português", status: "available", group: "global" },
+    { name: "العربية",   status: "available", group: "global" },
+    { name: "中文",      status: "available", group: "global" }
+  ];
+
+  // ═══════════════════════════════════════════════════════════════
+  //  RENDU — ne pas modifier sauf changement de design
+  // ═══════════════════════════════════════════════════════════════
+  (function renderLanguages() {
+    const container = document.getElementById("languages-container");
+    if (!container) return;
+
+    const featured = TERALM_LANGUAGES.filter(l => l.status === "available" && l.group === "africa");
+    const comingAfrica = TERALM_LANGUAGES.filter(l => l.status === "coming" && l.group === "africa");
+    const globalLangs = TERALM_LANGUAGES.filter(l => l.group === "global");
+
+    let html = '<div class="lang-inner">';
+    html += '<p class="section-label">Langues</p>';
+
+    // Bloc featured (Wolof aujourd'hui — plusieurs langues demain)
+    featured.forEach(lang => {
+      html += '<div class="lang-featured">';
+      html += '<p class="lang-featured-name">' + lang.name + '</p>';
+      html += '<p class="lang-featured-status">Disponible maintenant</p>';
+      html += '</div>';
+    });
+
+    // Groupe africain à venir
+    if (comingAfrica.length > 0) {
+      html += '<p class="lang-group-label">Prochainement</p>';
+      html += '<div class="lang-grid">';
+      comingAfrica.forEach(lang => {
+        html += '<span class="lang-tag africa">' + lang.name + '</span>';
+      });
+      html += '</div>';
+    }
+
+    // Groupe mondial
+    if (globalLangs.length > 0) {
+      html += '<p class="lang-group-label">Langues mondiales</p>';
+      html += '<div class="lang-grid">';
+      globalLangs.forEach(lang => {
+        html += '<span class="lang-tag">' + lang.name + '</span>';
+      });
+      html += '</div>';
+    }
+
+    html += '</div>';
+    container.innerHTML = html;
+  })();
+</script></body>
 </html>

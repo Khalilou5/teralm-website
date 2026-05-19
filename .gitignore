@@ -1,0 +1,4 @@
+
+# Fichiers de backup créés lors des modifs en live
+*.backup-*
+index.html.backup-*
