@@ -1,4 +1,4 @@
-# Teralm — The African Language Model
+# Teralm — The 1st African Language Model
 
 [![Live](https://img.shields.io/badge/live-teralm.ai-B5722A?style=flat-square)](https://teralm.ai)
 [![Chat](https://img.shields.io/badge/chat-chat.teralm.ai-1E1C19?style=flat-square)](https://chat.teralm.ai)
